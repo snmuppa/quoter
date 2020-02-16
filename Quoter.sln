@@ -1,0 +1,52 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{186A1A12-133C-47FA-B79F-1AC6F60C82D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{49F12B53-32AE-4154-B99B-1089E75A4243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{02B681F4-0D24-45DD-ACAE-B3BC7BEC74C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{747F4439-24FF-41E7-B52E-D55B0BD0426C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{186A1A12-133C-47FA-B79F-1AC6F60C82D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{186A1A12-133C-47FA-B79F-1AC6F60C82D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{186A1A12-133C-47FA-B79F-1AC6F60C82D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{186A1A12-133C-47FA-B79F-1AC6F60C82D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F12B53-32AE-4154-B99B-1089E75A4243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F12B53-32AE-4154-B99B-1089E75A4243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F12B53-32AE-4154-B99B-1089E75A4243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F12B53-32AE-4154-B99B-1089E75A4243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B681F4-0D24-45DD-ACAE-B3BC7BEC74C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B681F4-0D24-45DD-ACAE-B3BC7BEC74C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B681F4-0D24-45DD-ACAE-B3BC7BEC74C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B681F4-0D24-45DD-ACAE-B3BC7BEC74C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{747F4439-24FF-41E7-B52E-D55B0BD0426C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{747F4439-24FF-41E7-B52E-D55B0BD0426C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{747F4439-24FF-41E7-B52E-D55B0BD0426C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{747F4439-24FF-41E7-B52E-D55B0BD0426C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$1.ResourceNamePolicy = FileName
+		$0.TextStylePolicy = $2
+		$2.inheritsSet = null
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.scope = text/x-csharp
+		$0.TextStylePolicy = $4
+		$4.FileWidth = 80
+		$4.TabsToSpaces = True
+		$4.scope = text/plain
+		$0.StandardHeader = $5
+		$0.VersionControlPolicy = $6
+	EndGlobalSection
+EndGlobal
