@@ -2,6 +2,9 @@
 
 namespace Model
 {
+    /// <summary>
+    /// Interface for a trading result
+    /// </summary>
     public interface ITradeResult
     {
         Guid Id { get; set; }

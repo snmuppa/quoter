@@ -2,6 +2,9 @@
 
 namespace Model
 {
+    /// <summary>
+    /// Interface for a quote
+    /// </summary>
     public interface IQuote
     {
         Guid? Id { get; set; }
