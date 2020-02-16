@@ -24,8 +24,8 @@ namespace Client
             Console.WriteLine("Enter RAQ for Removing all quotes by a Symbol");
             Console.WriteLine("Enter GB to get the best quote with available volume");
             Console.WriteLine("Enter ET to execute a trade");
-            Console.Write("Enter RT to run  tests and exit");
-            Console.Write("Enter EXIT to run  tests and quit the application");
+            Console.WriteLine("Enter RT to run  tests and exit");
+            Console.WriteLine("Enter EXIT to run  tests and quit the application");
 
             Console.WriteLine();
 
@@ -86,7 +86,7 @@ namespace Client
         {
             Console.WriteLine("Entering get execute trade operation ...");
 
-            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. FRC): ");
+            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. HIGH): ");
 
             var volumeRequested = GetInput<uint>(IsValidVolumeInput, "Enter a valid requesting volume (e.g. 100): ");
 
@@ -103,7 +103,7 @@ namespace Client
         {
             Console.WriteLine("Entering get best quote operation ...");
 
-            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. FRC): ");
+            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. HIGH): ");
 
             var bestQuote = quoteManager.GetBestQuoteWithAvailableVolume(symbol);
 
@@ -125,7 +125,7 @@ namespace Client
         {
             Console.WriteLine("Entering removal all quotes for a symbol operation ...");
 
-            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. FRC): ");
+            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. HIGH): ");
 
             try
             {
@@ -171,7 +171,7 @@ namespace Client
 
             var id = GetInput<Guid>(IsValidGuidInput, "Enter a valid id (e.g. 1436fd88-5366-4a72-893d-58d7aefe3b1e): ");
 
-            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. FRC): ");
+            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. HIGH): ");
 
             var price = GetInput<double>(IsValidPriceInput, "Enter a valid price (e.g. 117.38): ");
 
@@ -208,7 +208,7 @@ namespace Client
         {
             Console.WriteLine("Entering add Add quote operation ...");
 
-            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. FRC): ");
+            var symbol = GetInput<string>(IsValidSymbolInput, "Enter a valid symbol (e.g. HIGH): ");
 
             var price = GetInput<double>(IsValidPriceInput, "Enter a valid price (e.g. 117.38): ");
 
@@ -314,18 +314,23 @@ namespace Client
             return !IsNullOrWhiteSpace(input) && Guid.TryParse(input, out _);
         }
 
+        #region TEST BED - NO REVIEW
+
         /// <summary>
         /// Runs all various tests on QUOTE MANAGER to ensure it is functionaing as per the business requirements.
         /// </summary>
         private static void RunTests()
         {
+            // TODO: Move these to the UNIT Test project and code refactor this giant test method
+
+            // NOTES: This is just for the sake of intergration run to prove the alogirthm working, please do not review this section critically :)
             Console.WriteLine("Running Tests on QuoteManager operations ...");
 
             IQuoteManager quoteManager = new QuoteManager();
 
             Console.WriteLine("Fetching on an empty quote manager ...");
 
-            IQuote quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            IQuote quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
             if (quote == null)
             {
@@ -336,17 +341,17 @@ namespace Client
 
             ITradeResult executedata = quoteManager.ExecuteTrade("A", 160);
 
-            Console.WriteLine("Executed volume for A: {0}, volume: {1},  weighted average: {2}", executedata.VolumeExecuted, executedata.VolumeExecuted, executedata.VolumeWeightedAveragePrice);
+            Console.WriteLine("Trade Result: {0}", executedata.ToString());
 
-            Console.WriteLine("Adding a quote for symbol FRC ...");
+            Console.WriteLine("Adding a quote for symbol HIGH ...");
 
-            quoteManager.AddOrUpdateQuote(BuildQuote("FRC", 177.38, 1000, DateTime.Today.AddDays(2)));
+            quoteManager.AddOrUpdateQuote(BuildQuote("HIGH", 177.38, 1000, DateTime.Today.AddDays(2)));
 
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
 
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
+            Console.WriteLine("Best Quote: {0}", quote.ToString());
 
             Console.WriteLine("Adding a quote with expired date time in the past ...");
 
@@ -359,73 +364,76 @@ namespace Client
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
 
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
+            Console.WriteLine("Best Quote: {0}", quote.ToString());
 
-            Console.WriteLine("Executing a trade for symbol FRC ...");
+            Console.WriteLine("Executing a trade for symbol HIGH ...");
 
-            executedata = quoteManager.ExecuteTrade("FRC", 980);
+            executedata = quoteManager.ExecuteTrade("HIGH", 980);
 
-            Console.WriteLine("Executed volume for A: {0}, volume: {1},  weighted average: {2}", executedata.VolumeExecuted, executedata.VolumeExecuted, executedata.VolumeWeightedAveragePrice);
+            Console.WriteLine("Trade Result: {0}", executedata.ToString());
 
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
 
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            Console.WriteLine("Updating an existing quote for symbol HIGH ...");
 
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
+            quoteManager.AddOrUpdateQuote(GetUpdatedQuote("HIGH", 1000, 187.98, quote));
 
-            Console.WriteLine("Executing a trade for symbol FRC ...");
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
 
-            executedata = quoteManager.ExecuteTrade("FRC", 500);
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
-            Console.WriteLine("Executed volume for A: {0}, volume: {1},  weighted average: {2}", executedata.VolumeExecuted, executedata.VolumeExecuted, executedata.VolumeWeightedAveragePrice);
+            Console.WriteLine("Best Quote: {0}", quote.ToString());
 
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            Console.WriteLine("Best Quote: {0}", quote.ToString());
 
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
+            Console.WriteLine("Executing a trade for symbol HIGH ...");
 
-            Console.WriteLine("Updating an existing quote for symbol FRC ...");
+            executedata = quoteManager.ExecuteTrade("HIGH", 480);
 
-            quoteManager.AddOrUpdateQuote(GetUpdatedQuote("FRC", 1000, 187.98, quote));
+            Console.WriteLine("Trade Result: {0}", executedata.ToString());
 
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
 
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
-
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
-
-            Console.WriteLine("Executing a trade for symbol FRC ...");
-
-            executedata = quoteManager.ExecuteTrade("FRC", 600);
-
-            Console.WriteLine("Executed volume for A: {0}, volume: {1},  weighted average: {2}", executedata.VolumeExecuted, executedata.VolumeExecuted, executedata.VolumeWeightedAveragePrice);
-
-            Console.WriteLine("Adding a new quote for symbol FRC ...");
-
-            quoteManager.AddOrUpdateQuote(BuildQuote("FRC", 177.38, 1000, DateTime.Today.AddDays(1)));
-
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
-
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
-
-            Console.WriteLine("Best Quote Id for FRC: {0}, price: {1}", quote.Id, quote.Price);
-
-            Console.WriteLine("Removing all quotes from quote manager for symbol FRC ...");
-
-            quoteManager.RemoveAllQuotes("FRC");
-
-            Console.WriteLine("Fetching from quote manager for symbol FRC ...");
-
-            quote = quoteManager.GetBestQuoteWithAvailableVolume("FRC");
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
 
             if (quote == null)
             {
-                Console.WriteLine("No quote items available for FRC.");
+                Console.WriteLine("No quote that matches the criteria.");
+            }
+
+            Console.WriteLine("Executing a trade for symbol HIGH ...");
+
+            executedata = quoteManager.ExecuteTrade("HIGH", 600);
+
+            Console.WriteLine("Trade Result: {0}", executedata.ToString());
+
+            Console.WriteLine("Adding a new quote for symbol HIGH ...");
+
+            quoteManager.AddOrUpdateQuote(BuildQuote("HIGH", 177.38, 1000, DateTime.Today.AddDays(1)));
+
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
+
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
+
+            Console.WriteLine("Best Quote: {0}", quote.ToString());
+
+            Console.WriteLine("Removing all quotes from quote manager for symbol HIGH ...");
+
+            quoteManager.RemoveAllQuotes("HIGH");
+
+            Console.WriteLine("Fetching from quote manager for symbol HIGH ...");
+
+            quote = quoteManager.GetBestQuoteWithAvailableVolume("HIGH");
+
+            if (quote == null)
+            {
+                Console.WriteLine("No quote items available for HIGH.");
             }
 
             Console.WriteLine("Adding a quote for symbol AAPL ...");
@@ -493,5 +501,7 @@ namespace Client
 
             return quote;
         }
+
+        #endregion
     }
 }
