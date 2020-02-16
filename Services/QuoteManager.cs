@@ -94,7 +94,7 @@ namespace Services
             while (remainingVolumeRequested != 0)
             {
                 IQuote bestQuote = GetBestQuoteWithAvailableVolume(symbol);
-                if (bestQuote == null || bestQuote.AvailableVolume == 0)
+                if (bestQuote == null)
                 {
                     break;
                 }
@@ -112,7 +112,7 @@ namespace Services
                 remainingVolumeRequested = (remainingVolumeRequested < quoteVolume) ? 0 : remainingVolumeRequested - quoteVolume;
 
                 // updating traderesult to update the total volume executed
-                volumeExecuted += volumeRequested - remainingVolumeRequested;
+                volumeExecuted = volumeRequested - remainingVolumeRequested;
 
                 // calculating total trade price which will be used to VolumeWeightedAveragePrice - (price*volume used)
                 tradeTotalPrice += (bestQuote.Price * Convert.ToDouble(quoteVolumeUsed));
@@ -152,6 +152,8 @@ namespace Services
 
                 int maxQueueIterations = pricingPriorityQueue.Count;
 
+                 // This is implementation and is faster as this removes invalid entries i.e. any quote that has 0 volume or expired date
+                 // This is an assumption i have made
                 while (pricingPriorityQueue.Count != 0 && maxQueueIterations != 0)
                 {
                     var firstQuote = pricingPriorityQueue.First;
@@ -162,7 +164,7 @@ namespace Services
                         quote = firstQuote;
                         break;
                     }
-                    else if (IsExpiredQuote(firstQuote))
+                    else
                     {
                         // the quote with the lowest price point has expired, so remove from the priority queue and the quote book
                         // this is an optimization to keep the pricing priority queue hot for fast fetches
@@ -301,7 +303,7 @@ namespace Services
             // This type of Remove and Add opertions keeps the integrity of the 2 internal data structures - quoteBook and the symbolsQuoteBook
             RemoveQuote((Guid)quote.Id);
 
-            AddQuote((Guid)quote.Id, quote);
+            AddQuote(quote);
         }
 
         /// <summary>
@@ -316,18 +318,17 @@ namespace Services
 
             if (!symbolsQuoteBook.ContainsKey(quote.Symbol))
             {
-                pricingPriorityQueue = new SimplePriorityQueue<IQuote, double>();
-                pricingPriorityQueue.Enqueue(quote, quote.Price);
-                symbolsQuoteBook.Add(quote.Symbol, pricingPriorityQueue);
+                pricingPriorityQueue = new SimplePriorityQueue<IQuote, double>();   
             }
             else
             {
                 pricingPriorityQueue = symbolsQuoteBook[quote.Symbol];
-                pricingPriorityQueue.Enqueue(quote, quote.Price);
-                symbolsQuoteBook[quote.Symbol] = pricingPriorityQueue;
             }
 
-            quoteBook.Add(quote.Id, quote);
+            pricingPriorityQueue.Enqueue(quote, quote.Price);
+            symbolsQuoteBook[quote.Symbol] = pricingPriorityQueue;
+
+            quoteBook[quote.Id] = quote;
         }
 
         

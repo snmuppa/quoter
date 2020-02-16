@@ -130,13 +130,13 @@ namespace Client
             try
             {
                 quoteManager.RemoveAllQuotes(symbol);
+
+                Console.WriteLine("Finished removing all the quotes for the symbol: {0}", symbol);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.WriteLine("Finished removing all the quotes for the symbol: {0}", symbol);
         }
 
         /// <summary>
@@ -152,13 +152,13 @@ namespace Client
             try
             {
                 quoteManager.RemoveQuote(id);
+
+                Console.WriteLine("Finished removing the quote for id: {0}", id);
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.WriteLine("Finished removing the quote for id: {0}", id);
         }
 
         /// <summary>
@@ -191,13 +191,13 @@ namespace Client
             try
             {
                 quoteManager.AddOrUpdateQuote(quote);
+
+                Console.WriteLine("Updated the quote: {0}", quote.ToString());
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.WriteLine("Updated the quote: {0}", quote.ToString());
         }
 
         /// <summary>
@@ -227,13 +227,13 @@ namespace Client
             try
             {
                 quoteManager.AddOrUpdateQuote(quote);
+
+                Console.WriteLine("Added a new quote: {0}", quote.ToString());
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            Console.WriteLine("Added a new quote: {0}", quote.ToString());
         }
 
         /// <summary>
