@@ -323,7 +323,7 @@ namespace Client
         {
             // TODO: Move these to the UNIT Test project and code refactor this giant test method
 
-            // NOTES: This is just for the sake of intergration run to prove the alogirthm working, please do not review this section critically :)
+            // NOTES: This is just for the sake of integration run to prove the algorithm is working, please do not review this section critically :)
             Console.WriteLine("Running Tests on QuoteManager operations ...");
 
             IQuoteManager quoteManager = new QuoteManager();

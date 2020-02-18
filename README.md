@@ -70,6 +70,21 @@ Checks for not in progress:
 1.	Trade Execution for this Symbol
 2.	Add or Update for this GUID is in progress
 
+## Running the app on Linux/ Mac
+1. Build the  docker image
+```
+$ docker-compose build
+```
+2. Verify that the docker image is created for the client application, check for the newly created image by the name `client`
+```
+$ docker image ls
+```
+3. Run the docker container in interactive mode
+```
+$ docker run -i client:latest
+```
+4. Type `exit` to enter out of the inter-active shell any time
+
 ## Open-source libraries used
 
 - [NUnit](https://github.com/nunit/nunit) - NUnit 3 Framework.
